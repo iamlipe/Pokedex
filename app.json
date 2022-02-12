@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "ioasys_pokedex",
+    "slug": "ioasys_pokedex",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "ioasys_pokedex"
+}
