@@ -1,18 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { createSlice } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 // reducers
-const UserSlice = createSlice({
-  name: "poke",
-  initialState: {},
-  reducers: {},
-});
-
-const firstReducer = UserSlice.reducer;
+import themeReducer from "./themeReducer";
 
 export const store = configureStore({
-  reducer: { firstReducer },
+  reducer: { themeReducer },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
