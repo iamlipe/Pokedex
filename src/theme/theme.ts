@@ -1,3 +1,5 @@
+import { useAppSelector } from "../store";
+
 export default {
   fonts: {
     poppinsRegular: "pop_regular",

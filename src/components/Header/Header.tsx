@@ -1,7 +1,7 @@
 import React from "react";
 
 // components
-import { Toggle } from "../index";
+import Toggle from "../Form/Toggle/Toggle";
 import {
   Container,
   Title,
@@ -19,8 +19,8 @@ const Header = () => {
       <ReactangleTopHeader />
       <ContainerContentStyle>
         <ContainerTitleStyle>
-          <Logo width={27} />
-          <Title>ioasys pokedéx</Title>
+          <Logo testID="logo-app" width={27} />
+          <Title>ioasys pokédex</Title>
         </ContainerTitleStyle>
         <Toggle />
       </ContainerContentStyle>
