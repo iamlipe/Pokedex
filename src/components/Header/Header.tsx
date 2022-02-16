@@ -1,12 +1,29 @@
 import React from "react";
 
 // components
-import { Container, Title } from "./styles";
+import { Toggle } from "../index";
+import {
+  Container,
+  Title,
+  ReactangleTopHeader,
+  ContainerContentStyle,
+  ContainerTitleStyle,
+} from "./styles";
+
+// icons
+import Logo from "../../assets/icons/logo.svg";
 
 const Header = () => {
   return (
     <Container>
-      <Title>Header</Title>
+      <ReactangleTopHeader />
+      <ContainerContentStyle>
+        <ContainerTitleStyle>
+          <Logo width={27} />
+          <Title>ioasys pokedéx</Title>
+        </ContainerTitleStyle>
+        <Toggle />
+      </ContainerContentStyle>
     </Container>
   );
 };

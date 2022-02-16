@@ -2,7 +2,7 @@
 /* eslint-disable react/style-prop-object */
 
 import { useFonts } from "expo-font";
-import { StatusBar } from "expo-status-bar";
+// import { StatusBar } from "expo-status-bar"; // acho que sem fica melhor
 import React from "react";
 import { LogBox } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -24,7 +24,7 @@ const App = () => {
       <SafeAreaProvider>
         <ThemeProvider theme={theme}>
           <Route />
-          <StatusBar style="dark" translucent />
+          {/* <StatusBar /> */}
         </ThemeProvider>
       </SafeAreaProvider>
     </Provider>
