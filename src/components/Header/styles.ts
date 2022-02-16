@@ -17,9 +17,11 @@ export const ReactangleTopHeader = styled.View`
 
 export const ContainerContentStyle = styled.View`
   width: ${width * 0.85}px;
+  height: 32px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin: 50px 0px;
 `;
 
 export const ContainerTitleStyle = styled.View`
