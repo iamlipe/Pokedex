@@ -24,6 +24,7 @@ describe("header component", () => {
     const { getByTestId } = render(component);
     const logo = getByTestId('logo-app');
     expect(logo).toBeTruthy();
+    // testar se é um svg ?
   })
   
   it("if toggle rendered on screen", () => {

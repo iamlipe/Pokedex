@@ -33,6 +33,7 @@ const Toggle: React.FC<Props> = ({ containerStyle = {} }) => {
     <Container style={containerStyle}>
       <TouchableOpacity
         ref={refToggle}
+        testID="toggle-theme-mode"
         onPress={() => {
           refToggle.current.value = !refToggle.current.value;
           setAnimatedValue(
