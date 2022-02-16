@@ -1,12 +1,40 @@
-import React from "react";
+import React, { Dispatch } from "react";
 
 // components
-import { Container, Title } from "./styles";
+import { Container, ContainerInput, ButtonIcon, Label } from "./styles";
 
-const Input = () => {
+// icons
+import Search from "../../../assets/icons/search.svg";
+import Close from "../../../assets/icons/close.svg";
+
+interface Props {
+  onChangeText: Dispatch<string>;
+  value: string;
+  placeholder: string;
+  handleDelete: () => void;
+}
+
+const Input: React.FC<Props> = ({
+  onChangeText,
+  value,
+  placeholder,
+  handleDelete,
+}) => {
+  const renderIconRight = () => (
+    <ButtonIcon onPress={handleDelete}>
+      {!value ? <Search /> : <Close width={17} />}
+    </ButtonIcon>
+  );
+
   return (
     <Container>
-      <Title>Input</Title>
+      <Label>Buscar</Label>
+      <ContainerInput
+        onChangeText={onChangeText}
+        value={value}
+        placeholder={placeholder}
+      />
+      {renderIconRight()}
     </Container>
   );
 };

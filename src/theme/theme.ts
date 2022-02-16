@@ -7,7 +7,7 @@ export default {
   },
   colors: {
     darkGray: "#212121",
-    mediun: "#666666",
+    mediunGray: "#666666",
     lightGray: "#E0E0E0",
     white: "#FFFFFF ",
     background: "#F7F7F7",
