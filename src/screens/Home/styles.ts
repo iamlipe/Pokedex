@@ -4,8 +4,9 @@ import { Dimensions } from "react-native";
 const { width } = Dimensions.get("window");
 
 export const Container = styled.SafeAreaView`
-  justify-content: center;
+  flex: 1;
   align-items: center;
+  /* background-color: #fd0; */
 `;
 export const Title = styled.Text``;
 
