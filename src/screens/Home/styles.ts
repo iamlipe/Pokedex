@@ -3,12 +3,13 @@ import { Dimensions } from "react-native";
 
 const { width } = Dimensions.get("window");
 
-export const Container = styled.SafeAreaView`
+export const Container = styled.View`
   flex: 1;
+  flex-direction: column;
   align-items: center;
-  /* background-color: #fd0; */
+  justify-content: space-between;
+  padding-bottom: 30px;
 `;
-export const Title = styled.Text``;
 
 export const ContainerSearchAndFavStyle = styled.View`
   width: ${width * 0.75}px;
@@ -17,4 +18,7 @@ export const ContainerSearchAndFavStyle = styled.View`
   align-items: center;
 `;
 
-export const ContainerButtonFav = styled.TouchableOpacity``;
+export const ContainerButton = styled.TouchableOpacity``;
+export const Loading = styled.ActivityIndicator`
+  color: ${({ theme }) => theme.colors.secondaryColor};
+`;

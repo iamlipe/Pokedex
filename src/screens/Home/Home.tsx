@@ -1,36 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, View, Text } from "react-native";
-import { SvgUri } from "react-native-svg";
-// import { Image } from "react-native-elements";
+import { FlatList, View } from "react-native";
 import { pokeAPI } from "../../services/api";
-import { prettyLog } from "../../utils/prettyLog";
+import { handleError } from "../../utils/handleError";
 
 // components
-import { Header, Input } from "../../components";
+import { Card, Header, Input } from "../../components";
 import {
   Container,
   ContainerSearchAndFavStyle,
-  ContainerButtonFav,
+  ContainerButton,
+  Loading,
 } from "./styles";
 
 // icons
 import Favorite from "../../assets/icons/favorite.svg";
+import ArrowDown from "../../assets/icons/go-down.svg";
+
+// types
+import { PokeInfo } from "../../@types/Pokeinfo";
 
 interface PokeProps {
   name: string;
   url: string;
 }
 
-const Home = () => {
+const Home: React.FC = () => {
   const [searchInput, setSearchInput] = useState("");
-  const [pokeList, setPokeList] = useState([]);
+  const [page, setPage] = useState(0);
+  const [loadingPoke, setLoadingPoke] = useState(false);
+  const [pokeList, setPokeList] = useState<PokeInfo[]>([]);
 
   const getPoke = async () => {
+    setLoadingPoke(true);
+
     try {
       const { data: pokeResult } = await pokeAPI.get("/pokemon", {
         params: {
-          limit: 15,
-          offset: 0,
+          limit: 21,
+          offset: page * 21,
         },
       });
 
@@ -44,45 +51,39 @@ const Home = () => {
             id,
             name: poke.name,
             image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}`,
-            abilities: [info.abilities.map(({ ability }) => ability.name)],
+            abilities: info.abilities.map(({ ability }) => ability.name),
             pokemon_physical: {
               height: info.height,
               weight: info.weight,
             },
-            types: [info.types.map(({ type }) => type.name)],
-            stats: [
-              info.stats.map((statistic: any) => {
-                return {
-                  name: statistic.stat.name,
-                  base_stat: statistic.base_stat,
-                };
-              }),
-            ],
+            types: info.types.map(({ type }) => type.name),
+            stats: info.stats.map((statistic: any) => {
+              return {
+                name: statistic.stat.name,
+                base_stat: statistic.base_stat,
+              };
+            }),
           };
 
           return pokeObj;
         } catch (error) {
-          console.log(error);
+          handleError(error);
         }
       });
 
-      setPokeList(await Promise.all(allInfoPoke));
+      const newPokes = await Promise.all(allInfoPoke);
+      setPage(page + 1);
+      setPokeList([...pokeList, ...newPokes]);
     } catch (error) {
-      console.log(error);
+      handleError(error);
     }
+
+    setLoadingPoke(false);
   };
 
   useEffect(() => {
     getPoke();
   }, []);
-
-  const renderButtonFav = () => {
-    return (
-      <ContainerButtonFav>
-        <Favorite />
-      </ContainerButtonFav>
-    );
-  };
 
   return (
     <Container>
@@ -94,46 +95,35 @@ const Home = () => {
           value={searchInput}
           placeholder="Buscar"
         />
-        {renderButtonFav()}
+        <ContainerButton>
+          <Favorite />
+        </ContainerButton>
       </ContainerSearchAndFavStyle>
-      {/* {pokeList &&
-        pokeList.map((poke) => {
-          const imageURI = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${poke.id}.svg`;
-
-          return (
-
-            <>
-              <SvgUri width="50px" height="50px" uri={imageURI} />
-              <Text>{poke.name}</Text>
-            </>
-          );
-        })} */}
-      {/* <Image
-        style={{ width: 50, height: 50 }}
-        source={require("../../assets/icons/close.svg")}
-      /> */}
-      <FlatList
-        data={pokeList}
-        keyExtractor={(item) => item.id}
-        numColumns={3}
-        renderItem={({ item }) => {
-          const imageURI = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${item.id}.svg`;
-
-          return (
-            <View
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                width: 80,
-                height: 80,
-              }}
-            >
-              <SvgUri width="50px" height="50px" uri={imageURI} />
-              <Text>{item.name}</Text>
-            </View>
-          );
-        }}
-      />
+      <View style={{ marginTop: 30, height: "75%" }}>
+        <FlatList
+          style={{ width: "90%" }}
+          showsVerticalScrollIndicator={false}
+          data={pokeList}
+          keyExtractor={(item) => item.id}
+          numColumns={3}
+          renderItem={({ item }) => <Card key={item.id} data={item} />}
+          onEndReached={getPoke}
+          onEndReachedThreshold={0.3}
+        />
+        <ContainerButton
+          style={{
+            height: 50,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {loadingPoke ? (
+            <Loading color="#EC0344" size="small" />
+          ) : (
+            <ArrowDown width={20} />
+          )}
+        </ContainerButton>
+      </View>
     </Container>
   );
 };
