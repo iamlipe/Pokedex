@@ -3,10 +3,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // screens
-import { Home } from "../screens";
+import { Home, PokemonDetails } from "../screens";
+
+// types
+import { PokeInfo } from "../@types/PokeInfo";
 
 export type MainStackParams = {
   Home: undefined;
+  PokemonDetails: { data: PokeInfo };
 };
 
 const Main = createNativeStackNavigator<MainStackParams>();
@@ -22,6 +26,7 @@ const Route = () => {
         }}
       >
         <Main.Screen name="Home" component={Home} />
+        <Main.Screen name="PokemonDetails" component={PokemonDetails} />
       </Main.Navigator>
     </NavigationContainer>
   );

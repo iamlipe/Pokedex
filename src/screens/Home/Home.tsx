@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { FlatList, View } from "react-native";
 import { pokeAPI } from "../../services/api";
 import { handleError } from "../../utils/handleError";
+import { reWriteStringNoWordBreak } from "../../utils/reWriteStringNoWordBreak";
+import { abbreviateStat } from "../../utils/abbreviateStat";
 
 // components
 import { Card, Header, Input } from "../../components";
@@ -17,7 +19,7 @@ import Favorite from "../../assets/icons/favorite.svg";
 import ArrowDown from "../../assets/icons/go-down.svg";
 
 // types
-import { PokeInfo } from "../../@types/Pokeinfo";
+import { PokeInfo } from "../../@types/PokeInfo";
 
 interface PokeProps {
   name: string;
@@ -30,6 +32,8 @@ const Home: React.FC = () => {
   const [loadingPoke, setLoadingPoke] = useState(false);
   const [pokeList, setPokeList] = useState<PokeInfo[]>([]);
 
+  // description text have word break, so i have to rewrite the string
+
   const getPoke = async () => {
     setLoadingPoke(true);
 
@@ -41,39 +45,51 @@ const Home: React.FC = () => {
         },
       });
 
-      const allInfoPoke = pokeResult.results.map(async (poke: PokeProps) => {
-        const id = poke.url.split("/")[6];
+      const allInfoAboutPokemons = pokeResult.results.map(
+        async (poke: PokeProps) => {
+          const id = poke.url.split("/")[6];
 
-        try {
-          const { data: info } = await pokeAPI.get(`/pokemon/${id}`);
+          try {
+            // requests
+            const {
+              data: { name, abilities, height, weight, types, stats },
+            } = await pokeAPI.get(`/pokemon/${id}`);
+            const {
+              data: { flavor_text_entries },
+            } = await pokeAPI.get(`/pokemon-species/${id}`);
 
-          const pokeObj = {
-            id,
-            name: poke.name,
-            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}`,
-            abilities: info.abilities.map(({ ability }) => ability.name),
-            pokemon_physical: {
-              height: info.height,
-              weight: info.weight,
-            },
-            types: info.types.map(({ type }) => type.name),
-            stats: info.stats.map((statistic: any) => {
-              return {
-                name: statistic.stat.name,
-                base_stat: statistic.base_stat,
-              };
-            }),
-          };
+            const allInfoAboutOnePokemon: PokeInfo = {
+              id,
+              name,
+              description: reWriteStringNoWordBreak(
+                flavor_text_entries[9].flavor_text.split("\n")
+              ),
+              image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}.svg`,
+              abilities: abilities.map(({ ability }) => ability.name),
+              pokemon_physical: {
+                height: height / 10,
+                weight: weight / 10,
+              },
+              types: types.map(({ type }) => type.name),
+              stats: stats.map((statistic: any) => {
+                return {
+                  title: abbreviateStat(statistic.stat.name),
+                  base_stat: statistic.base_stat,
+                };
+              }),
+            };
 
-          return pokeObj;
-        } catch (error) {
-          handleError(error);
+            return allInfoAboutOnePokemon;
+          } catch (error) {
+            handleError(error);
+          }
         }
-      });
+      );
 
-      const newPokes = await Promise.all(allInfoPoke);
+      const newPokemons = await Promise.all(allInfoAboutPokemons);
+
       setPage(page + 1);
-      setPokeList([...pokeList, ...newPokes]);
+      setPokeList([...pokeList, ...newPokemons]);
     } catch (error) {
       handleError(error);
     }

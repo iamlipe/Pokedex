@@ -1,6 +1,7 @@
 export interface PokeInfo {
   id: string;
   name: string;
+  description: string;
   image: string;
   abilities: string[];
   pokemon_physical: {
@@ -8,10 +9,10 @@ export interface PokeInfo {
     weight: number;
   };
   types: string[];
-  stats: PokePhysical[];
+  stats: PokeStats[];
 }
 
-interface PokePhysical {
-  name: string;
-  weight: string;
+interface PokeStats {
+  title: string;
+  base_stat: string;
 }
