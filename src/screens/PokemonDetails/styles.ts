@@ -142,7 +142,7 @@ export const ContainerNav = styled.View`
   position: absolute;
   top: 20px;
 `;
-export const BackButton = styled.TouchableOpacity``;
+export const BaseButton = styled.TouchableOpacity``;
 
 export const PokeName = styled.Text`
   flex: 1;

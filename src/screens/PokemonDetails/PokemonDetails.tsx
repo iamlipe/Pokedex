@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import nextId from "react-id-generator";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { RouteProp } from "@react-navigation/native";
 import { SvgUri } from "react-native-svg";
 import { numberThreeCharacters } from "../../utils/numberThreeCharacters";
+import { handleError } from "../../utils/handleError";
+import { useAppDispatch, useAppSelector } from "../../store/index";
+import { setFavoritePokemons } from "../../store/favoritePokemonsReducer";
 
 // components
 import {
@@ -24,7 +28,7 @@ import {
   FrontBar,
   BackBar,
   ContainerNav,
-  BackButton,
+  BaseButton,
   PokeName,
   TextPokeId,
 } from "./styles";
@@ -33,7 +37,9 @@ import {
 import PokeBall from "../../assets/icons/pokeball.svg";
 import Balance from "../../assets/icons/balance.svg";
 import Scale from "../../assets/icons/scale.svg";
-import ArrowBack from "../../assets/icons/arrow-left.svg";
+import GoBack from "../../assets/icons/go-back.svg";
+import Favorite from "../../assets/icons/favorite.svg";
+import FavoriteEmpty from "../../assets/icons/favorite-empty.svg";
 
 // types
 import { PokeInfo } from "../../@types/PokeInfo";
@@ -47,19 +53,63 @@ type NavProps = NativeStackNavigationProp<MainStackParams, "PokemonDetails">;
 
 const PokemonDetails: React.FC<Props> = ({ route }) => {
   const { data } = route.params;
+  const dispatch = useAppDispatch();
   const navigation = useNavigation<NavProps>();
+  const favoritePokemons = useAppSelector(
+    (state) => state.favoritePokemonsReducer.favoritePokemons
+  );
+  const isFav = favoritePokemons.find(
+    (poke: PokeInfo): boolean => poke.id === data.id
+  );
+
+  const setAsyncStore = async () => {
+    try {
+      if (isFav) {
+        const removedFavoritePokemon = favoritePokemons.filter(
+          (poke: PokeInfo): boolean => poke.id !== data.id
+        );
+
+        dispatch(setFavoritePokemons(removedFavoritePokemon));
+
+        return await AsyncStorage.setItem(
+          "@favorite_pokemons",
+          JSON.stringify(removedFavoritePokemon)
+        );
+      }
+      const addFavoritePokemon = [...favoritePokemons, data];
+
+      dispatch(setFavoritePokemons(addFavoritePokemon));
+
+      return await AsyncStorage.setItem(
+        "@favorite_pokemons",
+        JSON.stringify(addFavoritePokemon)
+      );
+    } catch (error) {
+      handleError(error);
+    }
+  };
 
   return (
     <Container color={data.types[0]}>
       <ContainerNav>
-        <BackButton onPress={() => navigation.goBack()}>
-          <ArrowBack />
-        </BackButton>
+        <BaseButton onPress={() => navigation.goBack()}>
+          <GoBack />
+        </BaseButton>
         <PokeName>{data.name[0].toUpperCase() + data.name.substr(1)}</PokeName>
         <TextPokeId>{`#${numberThreeCharacters(data.id)}`}</TextPokeId>
       </ContainerNav>
       <PokeBall style={{ position: "absolute", top: 0, right: 42 }} />
       <ContainerModalDetails>
+        <BaseButton
+          style={{ position: "absolute", top: 18, right: 18 }}
+          onPress={() => setAsyncStore()}
+        >
+          {isFav ? (
+            <Favorite width={28} height={24} />
+          ) : (
+            <FavoriteEmpty width={28} height={24} />
+          )}
+        </BaseButton>
         <SvgUri
           uri={data.image}
           width={200}

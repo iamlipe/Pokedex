@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FlatList, View } from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 import { pokeAPI } from "../../services/api";
 import { handleError } from "../../utils/handleError";
+import { useAppDispatch } from "../../store/index";
 import { reWriteStringNoWordBreak } from "../../utils/reWriteStringNoWordBreak";
 import { abbreviateStat } from "../../utils/abbreviateStat";
+import { setFavoritePokemons } from "../../store/favoritePokemonsReducer";
 
 // components
 import { Card, Header, Input } from "../../components";
 import {
   Container,
   ContainerSearchAndFavStyle,
-  ContainerButton,
+  BaseButton,
+  ContainerViewMoreStyle,
   Loading,
 } from "./styles";
 
@@ -20,19 +26,38 @@ import ArrowDown from "../../assets/icons/go-down.svg";
 
 // types
 import { PokeInfo } from "../../@types/PokeInfo";
+import { MainStackParams } from "../../router/Router";
 
 interface PokeProps {
   name: string;
   url: string;
 }
 
+type NavProps = NativeStackNavigationProp<MainStackParams, "Home">;
+
 const Home: React.FC = () => {
+  const navigation = useNavigation<NavProps>();
+  const dispatch = useAppDispatch();
   const [searchInput, setSearchInput] = useState("");
   const [page, setPage] = useState(0);
   const [loadingPoke, setLoadingPoke] = useState(false);
   const [pokeList, setPokeList] = useState<PokeInfo[]>([]);
 
   // description text have word break, so i have to rewrite the string
+
+  const getAsyncStore = async () => {
+    try {
+      const favoritePokemonsAsync = await AsyncStorage.getItem(
+        "@favorite_pokemons"
+      );
+
+      if (favoritePokemonsAsync) {
+        dispatch(setFavoritePokemons(JSON.parse(favoritePokemonsAsync)));
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
 
   const getPoke = async () => {
     setLoadingPoke(true);
@@ -98,6 +123,7 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
+    getAsyncStore();
     getPoke();
   }, []);
 
@@ -111,9 +137,9 @@ const Home: React.FC = () => {
           value={searchInput}
           placeholder="Buscar"
         />
-        <ContainerButton>
+        <BaseButton onPress={() => navigation.navigate("FavoritePokemons")}>
           <Favorite />
-        </ContainerButton>
+        </BaseButton>
       </ContainerSearchAndFavStyle>
       <View style={{ marginTop: 30, height: "75%" }}>
         <FlatList
@@ -126,19 +152,13 @@ const Home: React.FC = () => {
           onEndReached={getPoke}
           onEndReachedThreshold={0.3}
         />
-        <ContainerButton
-          style={{
-            height: 50,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+        <ContainerViewMoreStyle>
           {loadingPoke ? (
             <Loading color="#EC0344" size="small" />
           ) : (
             <ArrowDown width={20} />
           )}
-        </ContainerButton>
+        </ContainerViewMoreStyle>
       </View>
     </Container>
   );

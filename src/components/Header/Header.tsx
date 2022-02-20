@@ -19,7 +19,7 @@ const Header = () => {
       <ReactangleTopHeader />
       <ContainerContentStyle>
         <ContainerTitleStyle>
-          <Logo testID="logo-app" width={27} />
+          <Logo width={27} />
           <Title>ioasys pokédex</Title>
         </ContainerTitleStyle>
         <Toggle />

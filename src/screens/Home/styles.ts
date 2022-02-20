@@ -18,7 +18,14 @@ export const ContainerSearchAndFavStyle = styled.View`
   align-items: center;
 `;
 
-export const ContainerButton = styled.TouchableOpacity``;
+export const BaseButton = styled.TouchableOpacity``;
+
+export const ContainerViewMoreStyle = styled.View`
+  height: 80px;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Loading = styled.ActivityIndicator`
   color: ${({ theme }) => theme.colors.secondaryColor};
 `;

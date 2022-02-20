@@ -3,9 +3,10 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 // reducers
 import themeReducer from "./themeReducer";
+import favoritePokemonsReducer from "./favoritePokemonsReducer";
 
 export const store = configureStore({
-  reducer: { themeReducer },
+  reducer: { themeReducer, favoritePokemonsReducer },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
