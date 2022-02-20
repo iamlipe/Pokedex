@@ -1,7 +1,10 @@
-import React from "react";
-import { SvgUri } from "react-native-svg";
-import { RouteProp } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 import nextId from "react-id-generator";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
+import { RouteProp } from "@react-navigation/native";
+import { SvgUri } from "react-native-svg";
+import { numberThreeCharacters } from "../../utils/numberThreeCharacters";
 
 // components
 import {
@@ -20,25 +23,41 @@ import {
   LineVertical,
   FrontBar,
   BackBar,
+  ContainerNav,
+  BackButton,
+  PokeName,
+  TextPokeId,
 } from "./styles";
 
 // icons
 import PokeBall from "../../assets/icons/pokeball.svg";
 import Balance from "../../assets/icons/balance.svg";
 import Scale from "../../assets/icons/scale.svg";
+import ArrowBack from "../../assets/icons/arrow-left.svg";
 
 // types
 import { PokeInfo } from "../../@types/PokeInfo";
+import { MainStackParams } from "../../router/Router";
 
 interface Props {
   route: RouteProp<{ params: { data: PokeInfo } }, "params">;
 }
 
+type NavProps = NativeStackNavigationProp<MainStackParams, "PokemonDetails">;
+
 const PokemonDetails: React.FC<Props> = ({ route }) => {
   const { data } = route.params;
+  const navigation = useNavigation<NavProps>();
 
   return (
     <Container color={data.types[0]}>
+      <ContainerNav>
+        <BackButton onPress={() => navigation.goBack()}>
+          <ArrowBack />
+        </BackButton>
+        <PokeName>{data.name[0].toUpperCase() + data.name.substr(1)}</PokeName>
+        <TextPokeId>{`#${numberThreeCharacters(data.id)}`}</TextPokeId>
+      </ContainerNav>
       <PokeBall style={{ position: "absolute", top: 0, right: 42 }} />
       <ContainerModalDetails>
         <SvgUri
@@ -86,6 +105,7 @@ const PokemonDetails: React.FC<Props> = ({ route }) => {
           <Column>
             {data.stats.map(({ title }) => (
               <Small
+                key={nextId()}
                 style={{ lineHeight: 16, marginBottom: 7 }}
                 color={data.types[0]}
               >
@@ -96,14 +116,18 @@ const PokemonDetails: React.FC<Props> = ({ route }) => {
           <LineVertical />
           <Column>
             {data.stats.map(({ base_stat }) => (
-              <Small style={{ lineHeight: 16, marginBottom: 7 }} stat>
+              <Small
+                key={nextId()}
+                style={{ lineHeight: 16, marginBottom: 7 }}
+                stat
+              >
                 {base_stat < 100 ? `0${base_stat}` : base_stat}
               </Small>
             ))}
           </Column>
           <Column style={{ alignItems: "flex-start", marginTop: 2 }}>
             {data.stats.map(({ base_stat }) => (
-              <Row>
+              <Row key={nextId()}>
                 <FrontBar
                   color={data.types[0]}
                   percentage={(base_stat * 80) / 250}

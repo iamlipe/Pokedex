@@ -14,5 +14,5 @@ export interface PokeInfo {
 
 interface PokeStats {
   title: string;
-  base_stat: string;
+  base_stat: number;
 }

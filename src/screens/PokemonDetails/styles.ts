@@ -133,3 +133,28 @@ export const BackBar = styled(FrontBar)`
   margin-left: 0;
   margin-right: 17px;
 `;
+
+export const ContainerNav = styled.View`
+  width: 80%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 20px;
+`;
+export const BackButton = styled.TouchableOpacity``;
+
+export const PokeName = styled.Text`
+  flex: 1;
+  font-family: ${({ theme }) => theme.fonts.poppinsBold};
+  font-size: ${RFValue(24)}px;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.white};
+  margin-left: 20px;
+`;
+
+export const TextPokeId = styled.Text`
+  font-size: ${RFValue(12)}px;
+  color: ${({ theme }) => theme.colors.white};
+  font-weight: 700;
+`;

@@ -3,6 +3,7 @@ import { SvgUri } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { MainStackParams } from "../../router/Router";
+import { numberThreeCharacters } from "../../utils/numberThreeCharacters";
 
 // components
 import { Container, Title, ContainerTitleStyle, TextIdPoke } from "./styles";
@@ -24,7 +25,9 @@ const Card: React.FC<Props> = ({ data }) => {
       color={data.types[0]}
       onPress={() => navigation.navigate("PokemonDetails", { data })}
     >
-      <TextIdPoke color={data.types[0]}>{`#${data.id}`}</TextIdPoke>
+      <TextIdPoke color={data.types[0]}>{`#${numberThreeCharacters(
+        data.id
+      )}`}</TextIdPoke>
       <SvgUri
         width={64}
         height={64}
