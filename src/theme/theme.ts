@@ -11,6 +11,7 @@ export default {
     white: "#FFFFFF ",
     background: "#F7F7F7",
     secondaryColor: "#EC0344",
+    themeColor: "#FFFFFF",
     pokeType: {
       rock: "#B69E31",
       ghost: "#70559B",
@@ -33,3 +34,13 @@ export default {
     },
   },
 };
+
+// export const themeDark = {
+//   ...defaultTheme,
+//   themeColor: "#212121",
+// };
+
+// export const themeLight = {
+//   ...defaultTheme,
+//   themeColor: "#FFFFFF",
+// };

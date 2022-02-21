@@ -30,7 +30,7 @@ export const ContainerModalDetails = styled.View`
   width: ${width * 0.95}px;
   height: auto;
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.themeColor};
   border-radius: 15px;
   margin-top: ${height * 0.2}px;
   padding: 48px 0 70px 0;
