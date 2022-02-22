@@ -90,7 +90,7 @@ const Home: React.FC = () => {
   const getSearchPoke = async ({ search }) => {
     setLoadingPoke(true);
 
-    const poke = await allInfoPoke({ search: [`${search}`] });
+    const poke = await allInfoPoke({ search: [`${search}`.toLowerCase()] });
 
     if (poke[0] === "Not Found") {
       setLoadingPoke(false);

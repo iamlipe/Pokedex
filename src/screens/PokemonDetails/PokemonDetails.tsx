@@ -54,6 +54,7 @@ const PokemonDetails: React.FC<Props> = ({ route }) => {
   const { data } = route.params;
   const dispatch = useAppDispatch();
   const navigation = useNavigation<NavProps>();
+  const darkTheme = useAppSelector((state) => state.themeReducer.darkMode);
   const favoritePokemons = useAppSelector(
     (state) => state.favoritePokemonsReducer.favoritePokemons
   );
@@ -131,8 +132,11 @@ const PokemonDetails: React.FC<Props> = ({ route }) => {
         <ContainerPokemonCharacteristics>
           <Cell style={{ width: "25%" }}>
             <Row style={{ justifyContent: "center" }}>
-              <Balance style={{ marginRight: 8, marginTop: -16 }} />
-              <Small>{`${data.pokemon_physical.weight} kg`}</Small>
+              <Balance
+                style={{ marginRight: 8, marginTop: -16 }}
+                fill={darkTheme ? "#FFF" : "#212121"}
+              />
+              <Small color="fontColor">{`${data.pokemon_physical.weight} kg`}</Small>
             </Row>
             <Small color="gray" title>
               Weight
@@ -140,15 +144,18 @@ const PokemonDetails: React.FC<Props> = ({ route }) => {
           </Cell>
           <Cell style={{ width: "25%" }}>
             <Row>
-              <Scale style={{ marginRight: 8, marginTop: -16 }} />
-              <Small>{`${data.pokemon_physical.height} m`}</Small>
+              <Scale
+                style={{ marginRight: 8, marginTop: -16 }}
+                fill={darkTheme ? "#FFF" : "#212121"}
+              />
+              <Small color="fontColor">{`${data.pokemon_physical.height} m`}</Small>
             </Row>
             <Small color="gray" title>
               Height
             </Small>
           </Cell>
           <Cell style={{ width: "50%" }}>
-            <Small>{`${data.abilities[1]} / ${data.abilities[0]}`}</Small>
+            <Small color="fontColor">{`${data.abilities[1]} / ${data.abilities[0]}`}</Small>
             <Small color="gray" title>
               Moves
             </Small>
@@ -163,6 +170,7 @@ const PokemonDetails: React.FC<Props> = ({ route }) => {
                 key={nextId()}
                 style={{ lineHeight: 16, marginBottom: 7 }}
                 color={data.types[0]}
+                stat
               >
                 {title}
               </Small>
@@ -174,7 +182,7 @@ const PokemonDetails: React.FC<Props> = ({ route }) => {
               <Small
                 key={nextId()}
                 style={{ lineHeight: 16, marginBottom: 7 }}
-                stat
+                color="fontColor"
               >
                 {base_stat < 100 ? `0${base_stat}` : base_stat}
               </Small>
