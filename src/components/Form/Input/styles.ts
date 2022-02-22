@@ -29,7 +29,7 @@ export const Label = styled.Text`
   font-family: ${({ theme }) => theme.fonts.poppinsRegular};
   font-size: ${RFValue(16)}px;
   font-weight: 500;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.themeColor};
   color: ${({ theme }) => theme.colors.secondaryColor};
   padding: 0 10px 0 5px;
 `;
