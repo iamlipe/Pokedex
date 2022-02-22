@@ -7,6 +7,8 @@ export async function allInfoPoke({
   ids = null,
   search = null,
 }): Promise<PokeInfo[] | string[]> {
+  console.log(search);
+
   const allInfoAboutPokemons = [ids || search][0].map(async (id: string) => {
     try {
       const {
@@ -22,7 +24,7 @@ export async function allInfoPoke({
         description: reWriteStringNoWordBreak(
           flavor_text_entries[9].flavor_text.split("\n")
         ),
-        image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}.svg`,
+        image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${idPoke}.svg`,
         abilities: abilities.map(({ ability }) => ability.name),
         pokemon_physical: {
           height: height / 10,
