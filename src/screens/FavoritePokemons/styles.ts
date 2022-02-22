@@ -7,6 +7,7 @@ export const Container = styled.View`
   align-items: center;
   justify-content: space-between;
   padding-bottom: 30px;
+  background-color: ${({ theme }) => theme.colors.themeColor};
 `;
 
 export const ContainerTitleStyle = styled.View`

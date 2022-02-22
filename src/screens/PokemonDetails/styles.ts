@@ -76,10 +76,8 @@ export const Small = styled.Text<PropsSmall>`
   font-size: ${RFValue(12)}px;
   font-weight: ${({ stat }) => (stat ? 600 : 400)};
   line-height: 16px;
-  color: ${({ theme, color = "darkGray", title }) =>
-    title || !color
-      ? `${theme.colors[color]}`
-      : `${theme.colors.pokeType[color]}`};
+  color: ${({ theme, color, stat }) =>
+    !stat ? `${theme.colors[color]}` : `${theme.colors.pokeType[color]}`};
   margin-bottom: ${({ title }) => (!title ? "12px" : "0px")};
 `;
 export const PokemonDescription = styled.Text`
@@ -88,7 +86,7 @@ export const PokemonDescription = styled.Text`
   font-size: ${RFValue(14)}px;
   font-weight: 400;
   line-height: 18px;
-  color: ${({ theme }) => theme.colors.darkGray};
+  color: ${({ theme }) => theme.colors.fontColor};
   padding: 0 32px;
 `;
 export const ContainerPokemonStats = styled.View`

@@ -49,7 +49,11 @@ const Toggle: React.FC<Props> = ({ containerStyle = {} }) => {
       >
         <ContainerToggle>
           <Animated.View
-            style={[styles.toggleWheelStyle, { marginLeft: moveToggle }]}
+            style={[
+              styles.toggleWheelStyle,
+              { backgroundColor: darkTheme ? "#EC0344" : "#8D8B92" },
+              { marginLeft: moveToggle },
+            ]}
           />
         </ContainerToggle>
       </TouchableOpacity>
@@ -61,7 +65,6 @@ const styles = StyleSheet.create({
   toggleWheelStyle: {
     width: 15,
     height: 15,
-    backgroundColor: "#8D8B92",
     borderRadius: 30,
   },
 });
