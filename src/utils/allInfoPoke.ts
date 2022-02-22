@@ -1,6 +1,5 @@
 import { pokeAPI } from "../services/api";
 import { PokeInfo } from "../@types/PokeInfo";
-import { handleError } from "./handleError";
 import { reWriteStringNoWordBreak } from "./reWriteStringNoWordBreak";
 import { abbreviateStat } from "./abbreviateStat";
 
@@ -44,7 +43,8 @@ export async function allInfoPoke({
         return error.response.data;
       }
 
-      handleError(error);
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
   });
 

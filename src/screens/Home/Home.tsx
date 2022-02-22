@@ -4,7 +4,6 @@ import { FlatList, View, Dimensions } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { pokeAPI } from "../../services/api";
-import { handleError } from "../../utils/handleError";
 import { useAppDispatch } from "../../store/index";
 import { allInfoPoke } from "../../utils/allInfoPoke";
 import { setFavoritePokemons } from "../../store/favoritePokemonsReducer";
@@ -55,7 +54,8 @@ const Home: React.FC = () => {
         dispatch(setFavoritePokemons(JSON.parse(favoritePokemonsAsync)));
       }
     } catch (error) {
-      handleError(error);
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
   };
 
@@ -80,7 +80,8 @@ const Home: React.FC = () => {
       setPage(page + 1);
       setPokeList([...pokeList, ...newPokemons]);
     } catch (error) {
-      handleError(error);
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
 
     setLoadingPoke(false);

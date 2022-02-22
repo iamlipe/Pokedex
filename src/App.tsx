@@ -2,20 +2,14 @@
 /* eslint-disable react/style-prop-object */
 
 import { useFonts } from "expo-font";
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { LogBox } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
-import { ThemeProvider } from "styled-components/native";
-import { useAppSelector } from "./store";
 import Route from "./router/Router";
 import { store } from "./store";
-import theme from "./theme/theme";
 
 const App = () => {
-  // const darkTheme = useAppSelector((state) => state.themeReducer.darkMode);
-
   const [fontsLoaded] = useFonts({
     pop_regular: require("./assets/fonts/Poppins-Regular.ttf"),
     pop_bold: require("./assets/fonts/Poppins-Bold.ttf"),
@@ -25,14 +19,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
-        <ThemeProvider theme={theme}>
-          <Route />
-          <StatusBar
-            style="light"
-            translucent={false}
-            backgroundColor="#000000"
-          />
-        </ThemeProvider>
+        <Route />
       </SafeAreaProvider>
     </Provider>
   );

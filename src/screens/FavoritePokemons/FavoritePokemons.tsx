@@ -12,6 +12,7 @@ import {
   TitleText,
   BaseButton,
   TextButton,
+  ContainerBackButton,
 } from "./styles";
 
 // icons
@@ -44,10 +45,12 @@ const FavoritePokemons = () => {
         numColumns={3}
         renderItem={({ item }) => <Card key={item.id} data={item} />}
       />
-      <BaseButton onPress={() => navigation.goBack()}>
-        <ArrowLeft width={30} height={15} />
-      </BaseButton>
-      <TextButton>Voltar</TextButton>
+      <ContainerBackButton>
+        <BaseButton onPress={() => navigation.goBack()}>
+          <ArrowLeft width={30} height={15} />
+        </BaseButton>
+        <TextButton>Voltar</TextButton>
+      </ContainerBackButton>
     </Container>
   );
 };

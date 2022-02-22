@@ -7389,6 +7389,13 @@ react-native-size-matters@^0.3.1:
   resolved "https://registry.yarnpkg.com/react-native-size-matters/-/react-native-size-matters-0.3.1.tgz#24d0cfc335a2c730f6d58bd7b43ea5a41be4b49f"
   integrity sha512-mKOfBLIBFBcs9br1rlZDvxD5+mAl8Gfr5CounwJtxI6Z82rGrMO+Kgl9EIg3RMVf3G855a85YVqHJL2f5EDRlw==
 
+react-native-snackbar-component@^1.1.12:
+  version "1.1.12"
+  resolved "https://registry.yarnpkg.com/react-native-snackbar-component/-/react-native-snackbar-component-1.1.12.tgz#9be53ad6f5128dcd9bb72da469c1d5531c52a9b8"
+  integrity sha512-uF9Aw3lWVtFOxrd09YCXteTvIxBZ0IrwEluhhTsmNqWf3fYeJ7LbERVXYw/2p39H9tQUFGkrJcrkvDcQcUa3Pg==
+  dependencies:
+    prop-types "^15.6.0"
+
 react-native-snackbar@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/react-native-snackbar/-/react-native-snackbar-2.4.0.tgz#dd9687f5228e379ecd57678a921e546331681bcf"

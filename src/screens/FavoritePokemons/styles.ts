@@ -34,3 +34,7 @@ export const TextButton = styled.Text`
   color: ${({ theme }) => theme.colors.gray};
   margin-top: 6px;
 `;
+
+export const ContainerBackButton = styled.View`
+  flex: 1;
+`;

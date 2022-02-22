@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { StyleProp, ViewStyle } from "react-native";
 import { Animated, Easing, StyleSheet, TouchableOpacity } from "react-native";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { setDarkMode } from "../../../store/themeReducer";
 
 import { Container, ContainerToggle } from "./styles";
 
@@ -10,6 +12,8 @@ interface Props {
 
 const Toggle: React.FC<Props> = ({ containerStyle = {} }) => {
   const refToggle = useRef(null);
+  const darkTheme = useAppSelector((state) => state.themeReducer.darkMode);
+  const dispatch = useAppDispatch();
   const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
 
   useEffect(() => {
@@ -33,7 +37,6 @@ const Toggle: React.FC<Props> = ({ containerStyle = {} }) => {
     <Container style={containerStyle}>
       <TouchableOpacity
         ref={refToggle}
-        testID="toggle-theme-mode"
         onPress={() => {
           refToggle.current.value = !refToggle.current.value;
           setAnimatedValue(
@@ -41,6 +44,7 @@ const Toggle: React.FC<Props> = ({ containerStyle = {} }) => {
               ? new Animated.Value(0)
               : new Animated.Value(1)
           );
+          dispatch(setDarkMode(!darkTheme));
         }}
       >
         <ContainerToggle>

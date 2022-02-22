@@ -1,4 +1,6 @@
-export default {
+import { DefaultTheme } from "styled-components/native";
+
+const defaultt = {
   fonts: {
     poppinsRegular: "pop_regular",
     poppinsBold: "pop_bold",
@@ -11,7 +13,6 @@ export default {
     white: "#FFFFFF ",
     background: "#F7F7F7",
     secondaryColor: "#EC0344",
-    themeColor: "#FFFFFF",
     pokeType: {
       rock: "#B69E31",
       ghost: "#70559B",
@@ -35,12 +36,24 @@ export default {
   },
 };
 
-// export const themeDark = {
-//   ...defaultTheme,
-//   themeColor: "#212121",
-// };
+export const themeDark: DefaultTheme = {
+  fonts: {
+    ...defaultt.fonts,
+  },
+  colors: {
+    ...defaultt.colors,
+    themeColor: "#212121",
+    fontColor: "#FFFFFF",
+  },
+};
 
-// export const themeLight = {
-//   ...defaultTheme,
-//   themeColor: "#FFFFFF",
-// };
+export const themeLight: DefaultTheme = {
+  fonts: {
+    ...defaultt.fonts,
+  },
+  colors: {
+    ...defaultt.colors,
+    themeColor: "#FFFFFF",
+    fontColor: "#212121",
+  },
+};

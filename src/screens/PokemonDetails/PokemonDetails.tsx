@@ -6,7 +6,6 @@ import { useNavigation } from "@react-navigation/native";
 import { RouteProp } from "@react-navigation/native";
 import { SvgUri } from "react-native-svg";
 import { numberThreeCharacters } from "../../utils/numberThreeCharacters";
-import { handleError } from "../../utils/handleError";
 import { useAppDispatch, useAppSelector } from "../../store/index";
 import { setFavoritePokemons } from "../../store/favoritePokemonsReducer";
 
@@ -78,14 +77,20 @@ const PokemonDetails: React.FC<Props> = ({ route }) => {
       }
       const addFavoritePokemon = [...favoritePokemons, data];
 
-      dispatch(setFavoritePokemons(addFavoritePokemon));
+      if (addFavoritePokemon.length > 12) {
+        // eslint-disable-next-line no-console
+        console.warn("You can only have 12 favorite pokemons in your list");
+      } else {
+        dispatch(setFavoritePokemons(addFavoritePokemon));
 
-      return await AsyncStorage.setItem(
-        "@favorite_pokemons",
-        JSON.stringify(addFavoritePokemon)
-      );
+        return await AsyncStorage.setItem(
+          "@favorite_pokemons",
+          JSON.stringify(addFavoritePokemon)
+        );
+      }
     } catch (error) {
-      handleError(error);
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
   };
 
