@@ -7,6 +7,7 @@ import { pokeAPI } from "../../services/api";
 import { useAppDispatch } from "../../store/index";
 import { allInfoPoke } from "../../utils/allInfoPoke";
 import { setFavoritePokemons } from "../../store/favoritePokemonsReducer";
+import { handleError } from "../../utils/handleError";
 
 // components
 import { Card, Header, Input } from "../../components";
@@ -54,8 +55,7 @@ const Home: React.FC = () => {
         dispatch(setFavoritePokemons(JSON.parse(favoritePokemonsAsync)));
       }
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+      handleError(error);
     }
   };
 
@@ -80,8 +80,7 @@ const Home: React.FC = () => {
       setPage(page + 1);
       setPokeList([...pokeList, ...newPokemons]);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+      handleError(error);
     }
 
     setLoadingPoke(false);

@@ -8,6 +8,8 @@ import { SvgUri } from "react-native-svg";
 import { numberThreeCharacters } from "../../utils/numberThreeCharacters";
 import { useAppDispatch, useAppSelector } from "../../store/index";
 import { setFavoritePokemons } from "../../store/favoritePokemonsReducer";
+import { handleError } from "../../utils/handleError";
+import { handleMessage } from "../../utils/handleMessage";
 
 // components
 import {
@@ -79,8 +81,7 @@ const PokemonDetails: React.FC<Props> = ({ route }) => {
       const addFavoritePokemon = [...favoritePokemons, data];
 
       if (addFavoritePokemon.length > 12) {
-        // eslint-disable-next-line no-console
-        console.warn("You can only have 12 favorite pokemons in your list");
+        handleMessage("You can only have 12 favorite pokemons in your list");
       } else {
         dispatch(setFavoritePokemons(addFavoritePokemon));
 
@@ -90,8 +91,7 @@ const PokemonDetails: React.FC<Props> = ({ route }) => {
         );
       }
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+      handleError(error);
     }
   };
 
