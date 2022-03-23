@@ -8,6 +8,8 @@ import { SvgUri } from "react-native-svg";
 import { numberThreeCharacters } from "../../utils/numberThreeCharacters";
 import { useAppDispatch, useAppSelector } from "../../store/index";
 import { setFavoritePokemons } from "../../store/favoritePokemonsReducer";
+import { handleError } from "../../utils/handleError";
+import { handleMessage } from "../../utils/handleMessage";
 
 // components
 import {
@@ -61,7 +63,6 @@ const PokemonDetails: React.FC<Props> = ({ route }) => {
   const isFav = favoritePokemons.find(
     (poke: PokeInfo): boolean => poke.id === data.id
   );
-
   const setAsyncStore = async () => {
     try {
       if (isFav) {
@@ -79,8 +80,7 @@ const PokemonDetails: React.FC<Props> = ({ route }) => {
       const addFavoritePokemon = [...favoritePokemons, data];
 
       if (addFavoritePokemon.length > 12) {
-        // eslint-disable-next-line no-console
-        console.warn("You can only have 12 favorite pokemons in your list");
+        handleMessage("You can only have 12 favorite pokemons in your list");
       } else {
         dispatch(setFavoritePokemons(addFavoritePokemon));
 
@@ -90,8 +90,7 @@ const PokemonDetails: React.FC<Props> = ({ route }) => {
         );
       }
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+      handleError(error);
     }
   };
 
@@ -189,18 +188,20 @@ const PokemonDetails: React.FC<Props> = ({ route }) => {
             ))}
           </Column>
           <Column style={{ alignItems: "flex-start", marginTop: 2 }}>
-            {data.stats.map(({ base_stat }) => (
-              <Row key={nextId()}>
-                <FrontBar
-                  color={data.types[0]}
-                  percentage={(base_stat * 80) / 250}
-                />
-                <BackBar
-                  color={data.types[0]}
-                  percentage={((base_stat * 80) / 250 - 80) * -1}
-                />
-              </Row>
-            ))}
+            {data.stats.map(({ base_stat }) => {
+              return (
+                <Row key={nextId()}>
+                  <FrontBar
+                    color={data.types[0]}
+                    percentage={(base_stat * 80) / 250}
+                  />
+                  <BackBar
+                    color={data.types[0]}
+                    percentage={((base_stat * 80) / 250 - 80) * -1}
+                  />
+                </Row>
+              );
+            })}
           </Column>
         </ContainerPokemonStats>
       </ContainerModalDetails>

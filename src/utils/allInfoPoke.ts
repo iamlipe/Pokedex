@@ -2,13 +2,12 @@ import { pokeAPI } from "../services/api";
 import { PokeInfo } from "../@types/PokeInfo";
 import { reWriteStringNoWordBreak } from "./reWriteStringNoWordBreak";
 import { abbreviateStat } from "./abbreviateStat";
+import { handleError } from "./handleError";
 
 export async function allInfoPoke({
   ids = null,
   search = null,
 }): Promise<PokeInfo[] | string[]> {
-  console.log(search);
-
   const allInfoAboutPokemons = [ids || search][0].map(async (id: string) => {
     try {
       const {
@@ -44,9 +43,7 @@ export async function allInfoPoke({
       if (error.response.data === "Not Found" && search) {
         return error.response.data;
       }
-
-      // eslint-disable-next-line no-console
-      console.error(error);
+      handleError(error);
     }
   });
 
