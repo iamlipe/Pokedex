@@ -63,7 +63,6 @@ const PokemonDetails: React.FC<Props> = ({ route }) => {
   const isFav = favoritePokemons.find(
     (poke: PokeInfo): boolean => poke.id === data.id
   );
-
   const setAsyncStore = async () => {
     try {
       if (isFav) {
@@ -189,18 +188,20 @@ const PokemonDetails: React.FC<Props> = ({ route }) => {
             ))}
           </Column>
           <Column style={{ alignItems: "flex-start", marginTop: 2 }}>
-            {data.stats.map(({ base_stat }) => (
-              <Row key={nextId()}>
-                <FrontBar
-                  color={data.types[0]}
-                  percentage={(base_stat * 80) / 250}
-                />
-                <BackBar
-                  color={data.types[0]}
-                  percentage={((base_stat * 80) / 250 - 80) * -1}
-                />
-              </Row>
-            ))}
+            {data.stats.map(({ base_stat }) => {
+              return (
+                <Row key={nextId()}>
+                  <FrontBar
+                    color={data.types[0]}
+                    percentage={(base_stat * 80) / 250}
+                  />
+                  <BackBar
+                    color={data.types[0]}
+                    percentage={((base_stat * 80) / 250 - 80) * -1}
+                  />
+                </Row>
+              );
+            })}
           </Column>
         </ContainerPokemonStats>
       </ContainerModalDetails>
